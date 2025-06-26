@@ -1,20 +1,12 @@
 import express, { Request, Response } from "express";
-// import cors from "cors";
-
 const app = express();
 const board = [
   [0, 0, 0],
   [0, 0, 0],
   [0, 0, 0],
 ];
-let player = -1;
-app.use(express.json());
 
-app.get("/", (req: Request, res: Response) => {
-  res.send(board);
-});
-
-const checkMatch = (p: number[], m: number[][]) => {
+function checkMatch(p: number[], m: number[][]): boolean {
   return m.some((el) => {
     return el.every((val, idx) => {
       console.log("val: " + val);
@@ -22,7 +14,14 @@ const checkMatch = (p: number[], m: number[][]) => {
       return val === p[idx];
     });
   });
-};
+}
+
+let player = -1;
+app.use(express.json());
+
+app.get("/", (req: Request, res: Response) => {
+  res.send(board);
+});
 
 let p1: number[][] = [];
 let p2: number[][] = [];
