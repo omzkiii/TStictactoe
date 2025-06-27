@@ -1,11 +1,5 @@
 import express, { Request, Response } from "express";
 const app = express();
-const board = [
-  [0, 0, 0],
-  [0, 0, 0],
-  [0, 0, 0],
-];
-
 function match(p: number[], m: number[][]): boolean {
   return m.some((el) => {
     return el.every((val, idx) => {
@@ -16,10 +10,16 @@ function match(p: number[], m: number[][]): boolean {
   });
 }
 
+let board = [
+  [0, 0, 0],
+  [0, 0, 0],
+  [0, 0, 0],
+];
+
 let p1: number[][] = [];
 let p2: number[][] = [];
-const LINES1 = { vert: 0, hor: 0, diag: 0 };
-const LINES2 = { vert: 0, hor: 0, diag: 0 };
+let LINES1 = { vert: 0, hor: 0, diag: 0 };
+let LINES2 = { vert: 0, hor: 0, diag: 0 };
 
 function check(m: number[][], LINES) {
   if (m.length < 2) {
@@ -44,6 +44,32 @@ function check(m: number[][], LINES) {
       default:
         break;
     }
+  }
+  if (Object.values(LINES1).includes(3)) {
+    board = [
+      [0, 0, 0],
+      [0, 0, 0],
+      [0, 0, 0],
+    ];
+
+    p1 = [];
+    p2 = [];
+    LINES1 = { vert: 0, hor: 0, diag: 0 };
+    LINES2 = { vert: 0, hor: 0, diag: 0 };
+    console.log("PLAYER 1 WINS");
+  }
+  if (Object.values(LINES2).includes(3)) {
+    board = [
+      [0, 0, 0],
+      [0, 0, 0],
+      [0, 0, 0],
+    ];
+
+    p1 = [];
+    p2 = [];
+    LINES1 = { vert: 0, hor: 0, diag: 0 };
+    LINES2 = { vert: 0, hor: 0, diag: 0 };
+    console.log("PLAYER 2 WINS");
   }
   console.log("STATS: " + JSON.stringify(LINES));
 }
