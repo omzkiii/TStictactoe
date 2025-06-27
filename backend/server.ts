@@ -1,4 +1,8 @@
 import express, { Request, Response } from "express";
+import { createClient } from "redis";
+
+const client = createClient();
+
 const app = express();
 function match(p: number[], m: number[][]): boolean {
   return m.some((el) => {
@@ -77,8 +81,12 @@ function check(m: number[][], LINES) {
 let player = -1;
 app.use(express.json());
 
-app.get("/", (req: Request, res: Response) => {
-  res.send(Math.abs(0 / 1).toString());
+app.get("/", async (req: Request, res: Response) => {
+  // await client.set("player", 1);
+});
+app.get("/get", async (req: Request, res: Response) => {
+  // const value = await client.get("key");
+  // res.send(value);
 });
 
 app.post("/click", (req: Request, res: Response): void => {
