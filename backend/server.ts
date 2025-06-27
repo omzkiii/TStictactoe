@@ -1,8 +1,9 @@
 import express, { Request, Response } from "express";
 import { createClient } from "redis";
 
-const client = createClient();
-
+const client = createClient({ url: "redis://valkey:6379" });
+client.on("error", (err) => console.log(err));
+client.connect();
 const app = express();
 function match(p: number[], m: number[][]): boolean {
   return m.some((el) => {
@@ -82,11 +83,12 @@ let player = -1;
 app.use(express.json());
 
 app.get("/", async (req: Request, res: Response) => {
-  // await client.set("player", 1);
+  client.set("player", 1);
+  res.send("OK");
 });
 app.get("/get", async (req: Request, res: Response) => {
-  // const value = await client.get("key");
-  // res.send(value);
+  const value = await client.get("player");
+  res.send(value);
 });
 
 app.post("/click", (req: Request, res: Response): void => {

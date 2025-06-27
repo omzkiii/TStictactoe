@@ -1,0 +1,25 @@
+
+services:
+  valkey:
+    image: valkey/valkey:latest
+    ports:
+      - "6379:6379"
+    networks:
+      - tictactoe-network
+
+  backend:
+    build: ./backend
+    depends_on:
+      - valkey
+    container_name: ttt-backend
+    volumes:
+      - ./backend:/app
+    ports:
+      - "3000:3000"
+    command: ["npm", "run", "dev"]
+    networks:
+        - tictactoe-network
+
+networks:
+    tictactoe-network:
+        driver: bridge
