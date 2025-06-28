@@ -15,6 +15,18 @@ function match(p: number[], m: number[][]): boolean {
   });
 }
 
+let game = {
+  board: [
+    [0, 0, 0],
+    [0, 0, 0],
+    [0, 0, 0],
+  ],
+  p1: [],
+  p2: [],
+  LINES1: { vert: 0, hor: 0, diag: 0 },
+  LINES2: { vert: 0, hor: 0, diag: 0 },
+};
+
 let board = [
   [0, 0, 0],
   [0, 0, 0],
@@ -83,7 +95,7 @@ let player = -1;
 app.use(express.json());
 
 app.get("/", async (req: Request, res: Response) => {
-  client.set("player", 1);
+  // client.hSet("game", game);
   res.send("OK");
 });
 app.get("/get", async (req: Request, res: Response) => {
