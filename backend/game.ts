@@ -14,6 +14,16 @@ interface Game {
   LINES2: LineCounts;
 }
 
+function match(p: number[], m: number[][]): boolean {
+  return m.some((el) => {
+    return el.every((val, idx) => {
+      console.log("val: " + val);
+      console.log("p: " + p[idx]);
+      return val === p[idx];
+    });
+  });
+}
+
 function newGame() {
   return {
     board: [
