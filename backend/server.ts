@@ -2,13 +2,15 @@ import express, { Request, Response } from "express";
 import { createClient } from "redis";
 import { randomUUID } from "crypto";
 import session from "express-session";
+import game from "./router/game";
 
-const client = createClient({ url: "redis://valkey:6379" });
+export const client = createClient({ url: "redis://valkey:6379" });
 client.on("error", (err) => console.log(err));
 client.connect();
 const app = express();
 
 app.use(express.json());
+
 app.use(
   session({
     secret: "key",
@@ -23,20 +25,25 @@ app.use(
 );
 
 app.get("/", async (req: Request, res: Response) => {
+  const id = req.sessionID;
   req.session.visited = true;
-  res.cookie;
-  console.log(req.sessionID);
-  console.log(req.session.visited);
-  res.send(req.headers.cookie?.toString());
+
+  // client.del("id");
+  // client.set(id, id);
+  // client.set(id, "hello");
+  // const cID = await client.get(id);
+  res.send("HELLo");
 });
+
 app.get("/get", async (req: Request, res: Response) => {
-  console.log(req.sessionID);
-  console.log(req.session.visited);
-  res.send(req.headers.cookie?.toString());
+  // const cID = await client.get("id");
+  const id = req.sessionID;
+  res.send(`ID - ${id}`);
 });
 
 app.post("/click", (req: Request, res: Response): void => {});
 
+app.use(game);
 app.listen(3000, () => {
   console.log("Listening...");
 });
