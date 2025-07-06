@@ -26,13 +26,8 @@ app.use(
 
 app.get("/", async (req: Request, res: Response) => {
   const id = req.sessionID;
-  req.session.visited = true;
-
-  // client.del("id");
-  // client.set(id, id);
-  // client.set(id, "hello");
-  // const cID = await client.get(id);
-  res.send("HELLo");
+  req.session.visits = 0;
+  res.send("HELLO");
 });
 
 app.get("/get", async (req: Request, res: Response) => {
