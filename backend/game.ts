@@ -1,3 +1,5 @@
+import { client } from "./server";
+
 type PlayerMoves = [number, number][];
 
 interface LineCounts {
@@ -5,6 +7,12 @@ interface LineCounts {
   hor: number;
   diag: number;
 }
+
+const EMPTY_LINES = {
+  vert: 0,
+  hor: 0,
+  diag: 0,
+};
 
 interface Game {
   board: number[][];
@@ -14,33 +22,42 @@ interface Game {
   LINES2: LineCounts;
 }
 
-function match(p: number[], m: number[][]): boolean {
+function is_in(p: number[], m: number[][]): boolean {
   return m.some((el) => {
     return el.every((val, idx) => {
-      console.log("val: " + val);
-      console.log("p: " + p[idx]);
+      // console.log("val: " + val);
+      // console.log("p: " + p[idx]);
       return val === p[idx];
     });
   });
 }
 
-function newGame() {
-  return {
-    board: [
-      [0, 0, 0],
-      [0, 0, 0],
-      [0, 0, 0],
-    ],
-    p1: [],
-    p2: [],
-    LINES1: { vert: 0, hor: 0, diag: 0 },
-    LINES2: { vert: 0, hor: 0, diag: 0 },
-  };
+function getOrInit(
+  id: string,
+  player: number,
+  key: string,
+  ret: Object | number[],
+) {
+  const data = client.hGet(id, `player${player}${key}`).then((d) => {
+    if (d !== null) {
+      return JSON.parse(d);
+    } else return ret;
+  });
+  return data;
 }
 
-let game = newGame();
+export async function logMove(id: string, player: number, coor: number[]) {
+  const moves = await getOrInit(id, player, "Moves", []);
+  const lines = await getOrInit(id, player, "Lines", EMPTY_LINES);
 
-function check(p: PlayerMoves, LINES: LineCounts) {
+  if (!is_in(coor, moves)) {
+    const newmove = moves.concat([coor]);
+    console.log(`return: ${newmove.length}`);
+    await client.hSet(id, `player${player}Moves`, JSON.stringify(newmove));
+  } else console.log("Invalid Move");
+}
+
+export function check(p: PlayerMoves, LINES: LineCounts) {
   if (p.length < 2) {
     return;
   }
@@ -63,12 +80,15 @@ function check(p: PlayerMoves, LINES: LineCounts) {
         break;
     }
   }
+
+  if (Object.values(LINES).includes(3)) {
+    console.log("PLAYER 2 WINS");
+  }
   console.log("STATS: " + JSON.stringify(LINES));
 }
 
-function checkWinner(LINES: LineCounts) {
+export function checkWinner(LINES: LineCounts) {
   if (Object.values(LINES).includes(3)) {
-    game = newGame();
     console.log("PLAYER 2 WINS");
   }
 }
