@@ -12,18 +12,25 @@ router.get("/:id/", (req: Request, res: Response) => {
 
 router.post("/move", async (req: Request, res: Response) => {
   req.session.visits = req.session.visits! + 1;
-  const player = req.body.player;
+  const player = req.session.player!;
   const coor = req.body.coor;
   const id = req.sessionID;
+
+  console.log(`Player: ${player}`);
   if (player > 1 || player < 0) res.send("Invalid Player Number");
   else {
     const WIN = await logMove(id, player, coor);
-    // res.send(await client.hGet(id, `player${player}Lines`));
     if (WIN) {
-      res.send({ winner: player });
+      res.send(player + 1);
+      req.session.destroy((err) => console.log("GAME RESET"));
+    } else {
+      req.session.player = Math.abs(req.session.player! - 1);
+      if (req.session.visits >= 9) {
+        req.session.destroy((err) => console.log("GAME RESET"));
+        res.send(-1);
+      } else res.send(0);
     }
   }
-  res.send(req.session.visits);
 });
 exports = router;
 
