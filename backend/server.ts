@@ -1,4 +1,4 @@
-import express, { Request, Response } from "express";
+import express, { NextFunction, Request, Response } from "express";
 import { createClient } from "redis";
 import { randomUUID } from "crypto";
 import session from "express-session";
@@ -27,6 +27,7 @@ app.use(
 app.get("/", async (req: Request, res: Response) => {
   const id = req.sessionID;
   req.session.visits = 0;
+  req.session.player = 0;
   res.send("HELLO");
 });
 
@@ -36,7 +37,10 @@ app.get("/get", async (req: Request, res: Response) => {
   res.send(`ID - ${id}`);
 });
 
-app.post("/click", (req: Request, res: Response): void => {});
+app.get("/click", (req: Request, res: Response) => {
+  const arr = [0, 1, 2, 3];
+  res.send(arr[3]);
+});
 
 app.use(game);
 app.listen(3000, () => {
