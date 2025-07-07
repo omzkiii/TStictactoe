@@ -55,12 +55,11 @@ export async function logMove(id: string, player: number, coor: number[]) {
     console.log("Invalid Move");
   } else {
     const newmove = moves.concat([coor]);
-    const newlines = check(moves, lines);
+    const newlines = check(newmove, lines);
     if (newlines === "WINNER") {
       return true;
     }
 
-    console.log(`return: ${newmove.length}`);
     await client.hSet(id, `player${player}Moves`, JSON.stringify(newmove));
     await client.hSet(id, `player${player}Lines`, JSON.stringify(newlines));
     return false;
@@ -69,13 +68,16 @@ export async function logMove(id: string, player: number, coor: number[]) {
 
 export function check(p: PlayerMoves, LINES: LineCounts) {
   if (p.length < 2) {
+    console.log(JSON.stringify(LINES));
     return LINES;
   }
-  for (let i = 0; i <= p.length - 1; i++) {
+
+  console.log(p);
+  for (let i = 0; i <= p.length - 2; i++) {
     const [x1, y1] = p[i];
     const [x2, y2] = p[p.length - 1];
     const slope = Math.abs((y2 - y1) / (x2 - x1));
-    // console.log(`Slope of ${p[i]} and ${p[p.length - 1]}: ${slope}`);
+    console.log(`Slope of ${p[i]} and ${p[p.length - 1]}: ${slope}`);
     switch (slope) {
       case Infinity | NaN:
         LINES.vert++;
@@ -90,6 +92,7 @@ export function check(p: PlayerMoves, LINES: LineCounts) {
         break;
     }
   }
+  console.log(JSON.stringify(LINES));
   if (Object.values(LINES).includes(3)) {
     return "WINNER";
   }
