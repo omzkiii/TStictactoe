@@ -1,13 +1,7 @@
 <script setup lang="ts">
 import HelloWorld from './components/HelloWorld.vue'
-import axios from 'axios'
-
-const get = ()=> {axios.get("http://localhost:3000", {withCredentials: true}).then((res)=> console.log(res.data))}
-// const get = () => {
-//   console.log("HELLO")
-// }
-  
-
+// import axios from 'axios'
+// const get = ()=> {axios.get("http://localhost:3000", {withCredentials: true}).then((res)=> console.log(res.data))}
 </script>
 
 <template>
@@ -19,9 +13,6 @@ const get = ()=> {axios.get("http://localhost:3000", {withCredentials: true}).th
       <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
     </a>
 
-    <div class="card">
-      <button type="button" @click="get()">count is {{ count }}</button>
-    </div>
   </div>
   <HelloWorld msg="Hello world" />
 </template>
