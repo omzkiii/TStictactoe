@@ -2,7 +2,6 @@ import { Router } from "express";
 import { Request, Response } from "express";
 import { logMove } from "../game";
 import { client } from "../server";
-
 export const router = Router();
 
 router.get("/:id/", (req: Request, res: Response) => {

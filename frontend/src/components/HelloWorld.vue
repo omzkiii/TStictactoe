@@ -1,19 +1,17 @@
-<script setup>
-import { ref } from 'vue'
+<script setup lang="ts">
+import { computed } from 'vue';
+import useCounter from '../composables/App.ts';
+const { count, increment } = useCounter()
 
-const count = ref(0)
-const foo = "text"
-const bar = "text2"
-const dosomething = () => {
-  count.value = 10
-  console.log(count)
-}
-
+const countLeft = computed(()=>{
+  return 200 - count.value
+})
 </script>
 
 <template>
-  <button @click="count++">Count is: {{ count }}</button>
-  <div v-on:click="dosomething">{{ count }}</div>
+  <button @click="increment">Count is: {{ count }}</button>
+  <div>{{ count }}</div>
+  <p>COUNT LEFT: {{ countLeft }}</p>
 </template>
 
 <style scoped>
