@@ -1,26 +1,22 @@
 <script setup lang="ts">
-import { computed } from 'vue';
-import useCounter from '../composables/App.ts';
-const { count, increment } = useCounter()
+import { ref } from 'vue';
+// import useCounter from '../composables/App.ts';
+// const { count, increment } = useCounter()
+// import axios from 'axios';
 
-const countLeft = computed(()=>{
-  return 200 - count.value
-})
+const bLabel = ref(' ')
+
+
+function greet() {
+  bLabel.value = 'X'
+}
+
 </script>
 
 <template>
-  <button @click="increment">Count is: {{ count }}</button>
-  <div>{{ count }}</div>
-  <p>COUNT LEFT: {{ countLeft }}</p>
+  <button @click="greet">
+    {{ bLabel }}
+  </button>
 </template>
 
-<style scoped>
-button {
-}
-#text {
-  font-weight: bold;
-}
-#text2 {
-  color: #00FF00;
-}
-</style>
+<style scoped></style>
