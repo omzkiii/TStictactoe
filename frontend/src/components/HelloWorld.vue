@@ -6,6 +6,7 @@ import { ref } from 'vue';
 // import axios from 'axios';
 
 const bLabel = ref(1)
+const text = ref(" ")
 
 const move = computed(() => {
   switch (bLabel.value) {
@@ -21,15 +22,19 @@ const move = computed(() => {
 }
 )
 
-function greet() {
+function change_player() {
   bLabel.value = bLabel.value * -1
+}
+function greet() {
+  alert(text.value)
 }
 
 </script>
 
 <template>
+  <input :value="text" @input="event => { text = (event.target as HTMLInputElement).value }">
   <button @click="greet">
-    {{ move }}
+    SUMBIT
   </button>
 </template>
 
