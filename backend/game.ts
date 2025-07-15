@@ -22,12 +22,12 @@ interface Game {
   LINES2: LineCounts;
 }
 
-function is_in(p: number[], m: number[][]): boolean {
-  return m.some((el) => {
+function is_in(coor: number[], moves: number[][]): boolean {
+  return moves.some((el) => {
     return el.every((val, idx) => {
       // console.log("val: " + val);
       // console.log("p: " + p[idx]);
-      return val === p[idx];
+      return val === coor[idx];
     });
   });
 }
@@ -50,8 +50,7 @@ export async function logMove(id: string, player: number, coor: number[]) {
   const moves = await getOrInit(id, player, "Moves", []);
   const lines = await getOrInit(id, player, "Lines", EMPTY_LINES);
 
-  // if (is_in(coor, moves)) {
-  if (false) {
+  if (is_in(coor, moves)) {
     console.log("Invalid Move");
   } else {
     const newmove = moves.concat([coor]);
