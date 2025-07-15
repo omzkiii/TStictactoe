@@ -11,7 +11,12 @@ client.connect();
 const app = express();
 
 app.use(express.json());
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+  }),
+);
 
 app.use(
   session({
@@ -35,6 +40,7 @@ app.get("/", async (req: Request, res: Response) => {
 
 app.get("/get", async (req: Request, res: Response) => {
   // const cID = await client.get("id");
+  req.session.visits = 0;
   const id = req.sessionID;
   res.send(`ID - ${id}`);
 });
