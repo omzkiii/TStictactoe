@@ -3,6 +3,7 @@ import { createClient } from "redis";
 import { randomUUID } from "crypto";
 import session from "express-session";
 import game from "./router/game";
+import cors from "cors";
 
 export const client = createClient({ url: "redis://valkey:6379" });
 client.on("error", (err) => console.log(err));
@@ -10,6 +11,7 @@ client.connect();
 const app = express();
 
 app.use(express.json());
+app.use(cors());
 
 app.use(
   session({
