@@ -1,7 +1,6 @@
 import { Router } from "express";
 import { Request, Response } from "express";
 import { logMove } from "../game";
-import { client } from "../server";
 export const router = Router();
 
 router.get("/:id/", (req: Request, res: Response) => {
@@ -21,11 +20,11 @@ router.post("/move", async (req: Request, res: Response) => {
     const WIN = await logMove(id, player, coor);
     if (WIN) {
       res.send(player + 1);
-      req.session.destroy((err) => console.log("GAME RESET"));
+      req.session.destroy(() => console.log("GAME RESET"));
     } else {
       req.session.player = Math.abs(req.session.player! - 1);
       if (req.session.visits >= 9) {
-        req.session.destroy((err) => console.log("GAME RESET"));
+        req.session.destroy(() => console.log("GAME RESET"));
         res.send(-1);
       } else res.send(0);
     }
