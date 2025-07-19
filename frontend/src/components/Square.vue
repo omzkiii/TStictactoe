@@ -1,19 +1,32 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import axios from 'axios';
-const props = defineProps(['coor']);
-const url = import.meta.env.VITE_API_BASE_URL
+// import axios from 'axios';
+// import { moves_no } from '../App.vue';
+const emit = defineEmits(['make_move'])
+const props = defineProps(['coor', 'moves_no']);
+// const url = import.meta.env.VITE_API_BASE_URL
 const data = ref('')
+const sign = ref('')
 
-async function test() {
-  data.value = await axios.get(`${url}/get`, { withCredentials: true }).then((res) => {
-    return res.data
-  }).catch((err) => console.log("SOMETHING WENT WRONG: " + err))
+
+function get_sign() {
+  if (props.moves_no % 2 == 0) {
+    sign.value = 'X'
+  }
+  else {
+    sign.value = 'O'
+  }
+}
+
+function make_move() {
+  get_sign()
+  emit('make_move')
+
 }
 </script>
 
 <template>
-  <button @click="test">{{ props.coor.x }},{{ props.coor.y }}</button>
+  <button @click="make_move">{{ sign }}</button>
   <p>{{ data }}</p>
 </template>
 
