@@ -26,7 +26,7 @@ function make_move() {
 </script>
 
 <template>
-  <button @click="make_move">{{ sign }}</button>
+  <button @click.once="make_move">{{ sign }}</button>
   <p>{{ data }}</p>
 </template>
 
