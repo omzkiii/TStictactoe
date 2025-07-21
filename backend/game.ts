@@ -1,5 +1,7 @@
 import { client } from "./server";
 
+const LINE_LENGTH = 3;
+
 type PlayerMoves = [number, number][];
 
 interface LineCounts {
@@ -92,7 +94,7 @@ export function check(p: PlayerMoves, LINES: LineCounts) {
     }
   }
   console.log(JSON.stringify(LINES));
-  if (Object.values(LINES).includes(3)) {
+  if (Object.values(LINES).includes(LINE_LENGTH)) {
     return "WINNER";
   }
   return LINES;
