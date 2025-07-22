@@ -1,10 +1,9 @@
 <script setup lang="ts">
+import axios from 'axios';
 import { ref } from 'vue';
-// import axios from 'axios';
-// import { moves_no } from '../App.vue';
 const emit = defineEmits(['make_move'])
 const props = defineProps(['coor', 'moves_no']);
-// const url = import.meta.env.VITE_API_BASE_URL
+const url = import.meta.env.VITE_API_BASE_URL
 const sign = ref('')
 
 function get_sign() {
@@ -14,6 +13,14 @@ function get_sign() {
   else {
     sign.value = 'O'
   }
+}
+
+function send_request() {
+  const ret_val = axios.post(url + "move", {
+    coor: props.coor,
+  }, {
+    withCredentials: true
+  })
 }
 
 function make_move() {
