@@ -10,7 +10,7 @@ router.get("/:id/", (req: Request, res: Response) => {
 
 router.post("/move", async (req: Request, res: Response) => {
   req.session.visits = req.session.visits! + 1;
-  const player = req.session.player!;
+  const player = req.session.player === undefined ? 0 : req.session.player;
   const coor = req.body.coor;
   const id = req.sessionID;
 
@@ -22,7 +22,7 @@ router.post("/move", async (req: Request, res: Response) => {
       res.send(player + 1);
       req.session.destroy(() => console.log("GAME RESET"));
     } else {
-      req.session.player = Math.abs(req.session.player! - 1);
+      req.session.player = Math.abs(player - 1);
       if (req.session.visits >= 9) {
         req.session.destroy(() => console.log("GAME RESET"));
         res.send(-1);
