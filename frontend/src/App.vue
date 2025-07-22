@@ -7,7 +7,7 @@ const moves_no = ref(0)
 <template>
   <div id="x" v-for="x in 3">
     <div id="y" v-for="y in 3">
-      <Square :coor="{ x: x, y: y }" :moves_no="moves_no" @make_move="moves_no++" />
+      <Square :coor="{ coor: [x, y] }" :moves_no="moves_no" @make_move="moves_no++" />
     </div>
   </div>
   <!-- <Square /> -->
