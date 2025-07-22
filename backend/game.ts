@@ -94,14 +94,8 @@ export function check(p: PlayerMoves, LINES: LineCounts) {
     }
   }
   console.log(JSON.stringify(LINES));
-  if (Object.values(LINES).includes(LINE_LENGTH)) {
+  if (Object.values(LINES).some((val) => val >= LINE_LENGTH)) {
     return "WINNER";
   }
   return LINES;
-}
-
-export function checkWinner(LINES: LineCounts) {
-  if (Object.values(LINES).includes(3)) {
-    console.log("PLAYER 2 WINS");
-  }
 }
