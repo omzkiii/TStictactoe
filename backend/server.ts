@@ -45,9 +45,9 @@ app.get("/get", async (req: Request, res: Response) => {
   res.send(`ID - ${id}`);
 });
 
-app.get("/click", (req: Request, res: Response) => {
-  const arr = [0, 1, 2, 3];
-  res.send(arr[3]);
+app.post("/test", (req: Request, res: Response) => {
+  const data = req.body.coor;
+  res.send(data);
 });
 
 app.use(game);
