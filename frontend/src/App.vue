@@ -13,4 +13,14 @@ const moves_no = ref(0)
   <!-- <Square /> -->
 </template>
 
-<style scoped></style>
+<style scoped>
+#x {
+  display: flex;
+  flex-direction: row;
+}
+
+#y {
+  display: flex;
+  flex-direction: column;
+}
+</style>
