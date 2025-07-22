@@ -79,8 +79,10 @@ export function check(p: PlayerMoves, LINES: LineCounts) {
     const [x2, y2] = p[p.length - 1];
     const slope = Math.abs((y2 - y1) / (x2 - x1));
     console.log(`Slope of ${p[i]} and ${p[p.length - 1]}: ${slope}`);
+    console.log(`Infinity Check: ${slope == Infinity}`);
+
     switch (slope) {
-      case Infinity | NaN:
+      case Infinity || NaN:
         LINES.vert++;
         break;
       case 0:
