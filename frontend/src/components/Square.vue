@@ -5,7 +5,6 @@ const emit = defineEmits(['make_move'])
 const props = defineProps(['coor', 'moves_no']);
 const url = import.meta.env.VITE_API_BASE_URL;
 const sign = ref('');
-const test_data = ref();
 
 function get_sign() {
   if (props.moves_no % 2 == 0) {
@@ -48,7 +47,6 @@ async function send_request() {
   }, {
     withCredentials: true
   })
-  test_data.value = ret_val.data
   result_handler(ret_val.data)
 };
 
@@ -61,7 +59,6 @@ function make_move() {
 
 <template>
   <button @click.once="make_move">{{ sign }}</button>
-  <p>{{ test_data }}</p>
 </template>
 
 <style scoped>
