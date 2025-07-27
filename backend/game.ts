@@ -7,13 +7,15 @@ type PlayerMoves = [number, number][];
 interface LineCounts {
   vert: number;
   hor: number;
-  diag: number;
+  diag_neg: number;
+  diag_pos: number;
 }
 
 const EMPTY_LINES = {
   vert: 0,
   hor: 0,
-  diag: 0,
+  diag_neg: 0,
+  diag_pos: 0,
 };
 
 interface Game {
@@ -77,19 +79,21 @@ export function check(p: PlayerMoves, LINES: LineCounts) {
   for (let i = 0; i <= p.length - 2; i++) {
     const [x1, y1] = p[i];
     const [x2, y2] = p[p.length - 1];
-    const slope = Math.abs((y2 - y1) / (x2 - x1));
+    const slope = (y2 - y1) / (x2 - x1);
     console.log(`Slope of ${p[i]} and ${p[p.length - 1]}: ${slope}`);
-    console.log(`Infinity Check: ${slope == Infinity}`);
 
     switch (slope) {
-      case Infinity || NaN:
+      case Infinity || -Infinity:
         LINES.vert++;
         break;
       case 0:
         LINES.hor++;
         break;
       case 1:
-        LINES.diag++;
+        LINES.diag_pos++;
+        break;
+      case -1:
+        LINES.diag_neg++;
         break;
       default:
         break;
