@@ -23,7 +23,6 @@ async function send_request() {
     withCredentials: true
   })
   test_data.value = ret_val.data
-  // return ret_val
 };
 
 function make_move() {
