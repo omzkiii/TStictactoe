@@ -81,19 +81,25 @@ export function check(p: PlayerMoves, LINES: LineCounts) {
     const [x2, y2] = p[p.length - 1];
     const slope = (y2 - y1) / (x2 - x1);
     console.log(`Slope of ${p[i]} and ${p[p.length - 1]}: ${slope}`);
+    // console.log(`Negative infinity checker: ${slope === -Infinity}`);
 
     switch (slope) {
-      case Infinity || -Infinity:
-        LINES.vert++;
+      case Infinity:
+      case -Infinity:
+        console.log("Horizontal");
+        LINES.hor++;
         break;
       case 0:
-        LINES.hor++;
+        LINES.vert++;
+        console.log("Vertical");
         break;
       case 1:
         LINES.diag_pos++;
+        console.log("Diagonal");
         break;
       case -1:
         LINES.diag_neg++;
+        console.log("Diagonal");
         break;
       default:
         break;
