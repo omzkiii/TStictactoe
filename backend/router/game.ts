@@ -16,21 +16,31 @@ router.post("/move", async (req: Request, res: Response) => {
 
   console.log(`Player: ${player}`);
   console.log(`Visits: ${req.session.visits}`);
-  if (player > 1 || player < 0) res.send("Invalid Player Number");
-  else {
-    const WIN = await logMove(id, player, coor);
-    if (WIN) {
-      res.send(player + 1);
-      req.session.destroy(() => console.log("GAME RESET"));
-    } else {
-      req.session.player = Math.abs(player - 1);
-      if (req.session.visits >= 9) {
-        req.session.destroy(() => console.log("GAME RESET"));
-        res.send(-1);
-      } else res.send(0);
-    }
+
+  if (player > 1 || player < 0) {
+    res.send("Invalid Player Number");
+    return;
   }
+
+  const WIN = await logMove(id, player, coor);
+  if (WIN) {
+    res.send(player + 1);
+    req.session.destroy(() => console.log("GAME RESET"));
+    return;
+  }
+
+  if (req.session.visits >= 9) {
+    req.session.destroy(() => console.log("GAME RESET"));
+    res.send(-1);
+    return;
+  }
+
+  // change player
+  req.session.player = Math.abs(player - 1);
+
+  res.send(0);
 });
+
 exports = router;
 
 export default router;
