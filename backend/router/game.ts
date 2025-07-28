@@ -1,12 +1,13 @@
 import { Router } from "express";
 import { Request, Response } from "express";
 import { logMove } from "../game";
+import { client } from "../server";
 export const router = Router();
 
-router.get("/:id/", (req: Request, res: Response) => {
-  // res.send(req.params.id);
-  res.send("SESSION ID: " + req.sessionID);
-});
+// router.get("/:id/", (req: Request, res: Response) => {
+//   // res.send(req.params.id);
+//   res.send("SESSION ID: " + req.sessionID);
+// });
 
 router.post("/move", async (req: Request, res: Response) => {
   req.session.visits = (req.session.visits ?? 0) + 1;
@@ -39,6 +40,11 @@ router.post("/move", async (req: Request, res: Response) => {
   req.session.player = Math.abs(player - 1);
 
   res.send(0);
+});
+
+router.get("/game", (req: Request, res: Response) => {
+  res.send("SESSION ID: " + req.sessionID);
+  // res.send("Game Status");
 });
 
 exports = router;
