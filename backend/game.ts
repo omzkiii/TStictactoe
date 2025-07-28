@@ -4,12 +4,20 @@ const LINE_LENGTH = 3;
 
 type PlayerMoves = [number, number][];
 
-interface LineCounts {
+type LineCounts = {
   vert: number;
   hor: number;
   diag_neg: number;
   diag_pos: number;
-}
+};
+
+type Game = {
+  board: number[][];
+  p1: PlayerMoves;
+  p2: PlayerMoves;
+  LINES1: LineCounts;
+  LINES2: LineCounts;
+};
 
 const EMPTY_LINES = {
   vert: 0,
@@ -17,14 +25,6 @@ const EMPTY_LINES = {
   diag_neg: 0,
   diag_pos: 0,
 };
-
-interface Game {
-  board: number[][];
-  p1: PlayerMoves;
-  p2: PlayerMoves;
-  LINES1: LineCounts;
-  LINES2: LineCounts;
-}
 
 function is_in(coor: number[], moves: number[][]): boolean {
   return moves.some((el) => {
@@ -45,7 +45,8 @@ function getOrInit(
   const data = client.hGet(id, `player${player}${key}`).then((d) => {
     if (d !== null) {
       return JSON.parse(d);
-    } else return ret;
+    }
+    return ret;
   });
   return data;
 }
@@ -56,17 +57,19 @@ export async function logMove(id: string, player: number, coor: number[]) {
 
   if (is_in(coor, moves)) {
     console.log("Invalid Move");
-  } else {
-    const newmove = moves.concat([coor]);
-    const newlines = check(newmove, lines);
-    if (newlines === "WINNER") {
-      return true;
-    }
-
-    await client.hSet(id, `player${player}Moves`, JSON.stringify(newmove));
-    await client.hSet(id, `player${player}Lines`, JSON.stringify(newlines));
-    return false;
+    return;
   }
+
+  const newmove = moves.concat([coor]);
+  const newlines = check(newmove, lines);
+
+  if (newlines === "WINNER") {
+    return true;
+  }
+
+  await client.hSet(id, `player${player}Moves`, JSON.stringify(newmove));
+  await client.hSet(id, `player${player}Lines`, JSON.stringify(newlines));
+  return false;
 }
 
 export function check(p: PlayerMoves, LINES: LineCounts) {
