@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { Request, Response } from "express";
-import { logMove } from "../game";
+import { logMove, GameData } from "../game";
 import { client } from "../server";
 export const router = Router();
 
@@ -44,8 +44,10 @@ router.post("/move", async (req: Request, res: Response) => {
 
 router.get("/game", async (req: Request, res: Response) => {
   const result = await client.hGetAll(req.sessionID);
-  res.send("RESULT: " + JSON.stringify(result));
-  // res.send("TEST");
+  const someObj = { player: 1 };
+  // if (result) res.send();
+  // else res.send("{}");
+  res.send(result);
 });
 
 exports = router;
