@@ -42,8 +42,10 @@ router.post("/move", async (req: Request, res: Response) => {
   res.send(0);
 });
 
-router.get("/game", (req: Request, res: Response) => {
-  res.send("SESSION ID: " + req.sessionID);
+router.get("/game", async (req: Request, res: Response) => {
+  const result = await client.hGetAll(req.sessionID);
+  res.send("RESULT: " + JSON.stringify(result));
+  // res.send("TEST");
 });
 
 exports = router;
