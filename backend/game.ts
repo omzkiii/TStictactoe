@@ -11,12 +11,12 @@ type LineCounts = {
   diag_pos: number;
 };
 
-type Game = {
-  board: number[][];
-  p1: PlayerMoves;
-  p2: PlayerMoves;
-  LINES1: LineCounts;
-  LINES2: LineCounts;
+export type GameData = {
+  // board: number[][];
+  player0Moves: PlayerMoves;
+  player0Lines: LineCounts;
+  player1Moves: PlayerMoves;
+  player1Lines: LineCounts;
 };
 
 const EMPTY_LINES = {
