@@ -26,7 +26,7 @@ const EMPTY_LINES = {
   diag_pos: 0,
 };
 
-function is_in(coor: number[], moves: number[][]): boolean {
+function is_in(coor: number[], moves: PlayerMoves): boolean {
   return moves.some((el) => {
     return el.every((val, idx) => {
       // console.log("val: " + val);
@@ -36,13 +36,13 @@ function is_in(coor: number[], moves: number[][]): boolean {
   });
 }
 
-function getOrInit(
+async function getOrInit<T>(
   id: string,
   player: number,
   key: string,
   ret: Object | number[],
-) {
-  const data = client.hGet(id, `player${player}${key}`).then((d) => {
+): Promise<T> {
+  const data: T = await client.hGet(id, `player${player}${key}`).then((d) => {
     if (d !== null) {
       return JSON.parse(d);
     }
@@ -51,9 +51,13 @@ function getOrInit(
   return data;
 }
 
-export async function logMove(id: string, player: number, coor: number[]) {
-  const moves = await getOrInit(id, player, "Moves", []);
-  const lines = await getOrInit(id, player, "Lines", EMPTY_LINES);
+export async function logMove(
+  id: string,
+  player: number,
+  coor: [number, number],
+) {
+  const moves: PlayerMoves = await getOrInit(id, player, "Moves", []);
+  const lines: LineCounts = await getOrInit(id, player, "Lines", EMPTY_LINES);
 
   if (is_in(coor, moves)) {
     console.log("Invalid Move");
