@@ -55,7 +55,7 @@ export async function logMove(
   id: string,
   player: number,
   coor: [number, number],
-) {
+): Promise<boolean | void> {
   const moves: PlayerMoves = await getOrInit(id, player, "Moves", []);
   const lines: LineCounts = await getOrInit(id, player, "Lines", EMPTY_LINES);
 
@@ -64,8 +64,8 @@ export async function logMove(
     return;
   }
 
-  const newmove = moves.concat([coor]);
-  const newlines = check(newmove, lines);
+  const newmove: PlayerMoves = moves.concat([coor]);
+  const newlines: LineCounts | string = check(newmove, lines);
 
   if (newlines === "WINNER") {
     return true;
@@ -76,7 +76,7 @@ export async function logMove(
   return false;
 }
 
-export function check(p: PlayerMoves, LINES: LineCounts) {
+export function check(p: PlayerMoves, LINES: LineCounts): LineCounts | string {
   if (p.length < 2) {
     console.log(JSON.stringify(LINES));
     return LINES;
