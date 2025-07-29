@@ -43,11 +43,15 @@ router.post("/move", async (req: Request, res: Response) => {
 });
 
 router.get("/game", async (req: Request, res: Response) => {
-  const result = await client.hGetAll(req.sessionID);
-  const someObj = { player: 1 };
-  // if (result) res.send();
-  // else res.send("{}");
-  res.send(result);
+  const result: GameData = await client
+    .hGetAll(req.sessionID)
+    .then((res) => {
+      return res;
+    })
+    .catch((err) => {
+      return err;
+    });
+  res.send({ player0: result.player0Moves, player1: result.player1Moves });
 });
 
 exports = router;
