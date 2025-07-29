@@ -44,7 +44,6 @@ router.post("/move", async (req: Request, res: Response) => {
 
 router.get("/game", (req: Request, res: Response) => {
   res.send("SESSION ID: " + req.sessionID);
-  // res.send("Game Status");
 });
 
 exports = router;
