@@ -51,7 +51,10 @@ router.get("/game", async (req: Request, res: Response) => {
     .catch((err) => {
       return err;
     });
-  res.send({ player0: result.player0Moves, player1: result.player1Moves });
+  res.send({
+    player0: JSON.parse(result.player0Moves || "[]"),
+    player1: JSON.parse(result.player1Moves || "[]"),
+  });
 });
 
 exports = router;
