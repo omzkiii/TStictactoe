@@ -35,23 +35,31 @@ async function get_game_data() {
   game_data.value = await axios.get(url + "/game", {
     withCredentials: true
   }).then((res) => {
+    console.log(res.data.player1)
+    // return res.data
     return {
-      player0: JSON.parse(res.data.player0) as [number, number][],
-      player1: JSON.parse(res.data.player1) as [number, number][],
+
+      player0: res.data.player0,
+      player1: res.data.player1,
     }
   }).catch((err) => { return err })
+  const player0move = game_data.value?.player0 ?? []
+  const player1move = game_data.value?.player1 ?? []
 
-  game_data.value?.player0.forEach((move) => {
+  player0move.forEach((move) => {
     const el = document.querySelector(`[xvalue="${move[0]}"][yvalue="${move[1]}"]`);
     if (el) {
       el.textContent = 'X';
+      el.setAttribute("disabled", "true")
+
     }
   })
 
-  game_data.value?.player1.forEach((move) => {
+  player1move.forEach((move) => {
     const el = document.querySelector(`[xvalue="${move[0]}"][yvalue="${move[1]}"]`);
     if (el) {
       el.textContent = 'O';
+      el.setAttribute("disabled", "true")
     }
   })
 
@@ -61,7 +69,7 @@ async function get_game_data() {
 </script>
 
 <template>
-  <p>{{ game_data?.player0 }}</p>
+  <p>{{ game_data }}</p>
   <button @click="get_game_data">GET DATA</button>
   <div id="x" v-for="x in 3">
     <div id="y" v-for="y in 3">
