@@ -10,25 +10,9 @@ type GameMoves = {
   player1: [number, number][]
 }
 
-async function set_game_data() {
-  for (const [x, y] of game_data.value?.player0!) {
-    const el = document.querySelector(`[xvalue="${x}"][yvalue="${y}"]`);
-    if (el) {
-      el.textContent = 'X';
-    }
-  }
-  for (const [x, y] of game_data.value?.player1!) {
-    const el = document.querySelector(`[xvalue="${x}"][yvalue="${y}"]`);
-    if (el) {
-      el.textContent = 'O';
-    }
-  }
-}
 
 onMounted(async () => {
   get_game_data()
-
-
 })
 
 async function get_game_data() {
