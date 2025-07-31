@@ -12,7 +12,6 @@ type LineCounts = {
 };
 
 export type GameData = {
-  // board: number[][];
   player0Moves: PlayerMoves;
   player0Lines: LineCounts;
   player1Moves: PlayerMoves;
