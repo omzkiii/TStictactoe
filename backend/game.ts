@@ -12,9 +12,9 @@ type LineCounts = {
 };
 
 export type GameData = {
-  player0Moves: PlayerMoves;
+  player0Moves: string;
   player0Lines: LineCounts;
-  player1Moves: PlayerMoves;
+  player1Moves: string;
   player1Lines: LineCounts;
 };
 
