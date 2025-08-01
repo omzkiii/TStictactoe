@@ -39,6 +39,8 @@ async function get_game_data() {
   const player0move = game_data.value?.player0 ?? []
   const player1move = game_data.value?.player1 ?? []
 
+  moves_no.value = player0move.length + player1move.length
+
   set_game_data(player0move, 'X')
   set_game_data(player1move, 'O')
 }
