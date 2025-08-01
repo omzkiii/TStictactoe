@@ -10,9 +10,6 @@ type GameMoves = {
   player1: [number, number][]
 }
 
-onMounted(async () => {
-  get_game_data()
-})
 
 function set_game_data(player_game_data: [number, number][], symbol: string) {
   const player_move = player_game_data ?? []
@@ -44,6 +41,10 @@ async function get_game_data() {
   set_game_data(player0move, 'X')
   set_game_data(player1move, 'O')
 }
+
+onMounted(async () => {
+  get_game_data()
+})
 
 </script>
 
