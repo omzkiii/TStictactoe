@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref, useTemplateRef } from 'vue';
+import { onMounted, ref } from 'vue';
 import Square from './components/Square.vue';
 const url = import.meta.env.VITE_API_BASE_URL;
 import axios from 'axios';
@@ -10,45 +10,38 @@ type GameMoves = {
   player1: [number, number][]
 }
 
-
 onMounted(async () => {
   get_game_data()
 })
+
+function set_game_data(player_game_data: [number, number][], symbol: string) {
+  const player_move = player_game_data ?? []
+  player_move.forEach((move) => {
+    const el = document.querySelector(`[xvalue="${move[0]}"][yvalue="${move[1]}"]`);
+    if (el) {
+      el.textContent = symbol;
+      el.setAttribute("disabled", "true")
+    }
+  })
+}
 
 async function get_game_data() {
   game_data.value = await axios.get(url + "/game", {
     withCredentials: true
   }).then((res) => {
     console.log(res.data.player1)
-    // return res.data
     return {
-
       player0: res.data.player0,
       player1: res.data.player1,
     }
   }).catch((err) => { return err })
+
   const player0move = game_data.value?.player0 ?? []
   const player1move = game_data.value?.player1 ?? []
 
-  player0move.forEach((move) => {
-    const el = document.querySelector(`[xvalue="${move[0]}"][yvalue="${move[1]}"]`);
-    if (el) {
-      el.textContent = 'X';
-      el.setAttribute("disabled", "true")
-
-    }
-  })
-
-  player1move.forEach((move) => {
-    const el = document.querySelector(`[xvalue="${move[0]}"][yvalue="${move[1]}"]`);
-    if (el) {
-      el.textContent = 'O';
-      el.setAttribute("disabled", "true")
-    }
-  })
-
+  set_game_data(player0move, 'X')
+  set_game_data(player1move, 'O')
 }
-
 
 </script>
 
